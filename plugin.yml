@@ -5,5 +5,7 @@ api: [3.0.0]
 author: piyushbest
 
 commands:
- eshop:
+ enchantshop:
   description: "buy enchantments"
+  aliases: ["eshop"]
+  usage: /enchantshop
