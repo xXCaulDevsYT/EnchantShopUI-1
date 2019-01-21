@@ -15,7 +15,7 @@ use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener{
   
-  const COMMAND_NAME = "enchantui";
+  const COMMAND_NAME = "enchantshop";
   const FORM_API = "FormAPI";
   const EconomyAPI = "EconomyAPI";
  public $prices = [
@@ -83,33 +83,37 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
-        if(strtolower($cmd->getName()) === self::COMMAND_NAME and $sender instanceof Player) $this->EnchantForm($sender);
+	if(!$sender instanceof Player){
+		$sender->sendMessage("Please use this command in game!");
+		return true;
+	}
+	 if(strtolower($cmd->getName()) === self::COMMAND_NAME){
+	$this->EnchantForm($sender);
         return true;
     }
+   }
   public function EnchantForm($player){
         $plugin = $this->getServer()->getPluginManager();
 	$economyapi = $plugin->getPlugin(self::EconomyAPI);
         $formapi = $plugin->getPlugin(self::FORM_API);
-        $form = $formapi->createSimpleForm(function (Player $event, array $args){
-            $result = $args[0];
-            $player = $event->getPlayer();
-            if($result > 0){
+        $form = $formapi->createSimpleForm(function (Player $player, $data){
+            $result = $data;
+            if($result === null){
 				$this->ShopForm($player, $result);
             }
         });
 	  foreach($this->prices as $name => $price){
          $form->addButton($name);
-         }
         $form->sendToPlayer($player);
+  }
   }
   public function ShopForm($player, $id){
 	  $array = $this->idss;
 	  $eapi = $this->getServer()->getPluginManager()->getPlugin(self::EconomyAPI);
 	  $api = $this->getServer()->getPluginManager()->getPlugin(self::FORM_API);
-        $form = $api->createCustomForm(function (Player $event, array $data) use ($id , $array){
-			$player = $event->getPlayer();
+        $form = $api->createCustomForm(function (Player $player, $data) use ($id, $array){
 			  $item = $player->getInventory()->getItemInHand();
-                $this->eapi->reduceMoney($player->getName(), $price, true);
+                EconomyAPI::getInstance()->reduceMoney($player->getName(), $price, true);
 	        $player->sendMessage("§bYou have been charged §d$price §band got a enchant!");
                 $ench = Enchantment::getEnchantmentByName(strtolower($array[$id][0]));
                 $item->addEnchantment(new EnchantmentInstance($ench, (int) $data[0]));
