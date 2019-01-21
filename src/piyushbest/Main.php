@@ -83,11 +83,11 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
+        if(strtolower($cmd->getName()) === self::COMMAND_NAME){
 	if(!$sender instanceof Player){
 		$sender->sendMessage("Please use this command in game!");
 		return true;
 	}
-	 if(strtolower($cmd->getName()) === self::COMMAND_NAME){
 	$this->EnchantForm($sender);
         return true;
     }
