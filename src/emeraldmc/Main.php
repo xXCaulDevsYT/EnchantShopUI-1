@@ -1,6 +1,6 @@
 <?php
 
-namespace piyushbest;
+namespace emeraldmc;
 
 use pocketmine\{Player, Server};
 use pocketmine\plugin\PluginBase;
@@ -15,7 +15,7 @@ use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener{
   
-  const COMMAND_NAME = "enchantshop";
+  const COMMAND_NAME = "enchantmerchant";
   const FORM_API = "FormAPI";
   const EconomyAPI = "EconomyAPI";
  public $prices = [
@@ -79,7 +79,7 @@ class Main extends PluginBase implements Listener{
     27 => ["MENDING"]
   ];
   public function onEnable(){
-        $this->getLogger()->info("Enchant GUI has been  enabled");
+        $this->getLogger()->info("[Merchant] Enabled Enchanter!");
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
@@ -114,14 +114,14 @@ class Main extends PluginBase implements Listener{
         $form = $api->createCustomForm(function (Player $player, $data) use ($id, $array){
 			  $item = $player->getInventory()->getItemInHand();
                 EconomyAPI::getInstance()->reduceMoney($player->getName(), $price, true);
-	        $player->sendMessage("§bYou have been charged §d$price §band got a enchant!");
+	        $player->sendMessage("§3(§b!§3) §7You have been charged §a$price §7and got a enchant!");
                 $ench = Enchantment::getEnchantmentByName(strtolower($array[$id][0]));
                 $item->addEnchantment(new EnchantmentInstance($ench, (int) $data[0]));
 		$player->getInventory()->setItemInHand($item);
-	        $player->sendMessage("§bEnchant succeeded.");
+	        $player->sendMessage("§3(§b!§3) §7Enchanted Succesfully!");
 	       
          });
-       $form->setTitle("§bBuy enchantment");
+       $form->setTitle("§l§3ENCHANT MERCHANT");
        $form->addSlider("Level", 1, 10, 1, -1);
        $form->sendToPlayer($player);
 	  
