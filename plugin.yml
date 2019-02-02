@@ -6,6 +6,6 @@ author: EmeraldMC
 
 commands:
  enchantmerchant:
-  description: "buy enchantments"
+  description: "buy enchantments from the merchant"
   aliases: ["emerchant"]
   usage: /enchantmerchant
