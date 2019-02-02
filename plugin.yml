@@ -1,11 +1,11 @@
-name: EnchantUI
-main: piyushbest\Main
-version: 0.0.1
+name: ElmunaEnchants
+main: emeraldmc\Main
+version: 1.0.0
 api: [3.0.0]
-author: piyushbest
+author: EmeraldMC
 
 commands:
- enchantshop:
+ enchantmerchant:
   description: "buy enchantments"
-  aliases: ["eshop"]
-  usage: /enchantshop
+  aliases: ["emerchant"]
+  usage: /enchantmerchant
